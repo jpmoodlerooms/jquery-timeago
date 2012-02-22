@@ -13,6 +13,11 @@
  *
  * Copyright (c) 2008-2011, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
  */
+/**
+ * Fork: jpmoodlerooms/jquery-timeago
+ *  - from rmm5t/jquery-timeago
+ *  - merged changes from msolli/jquery-timeago (cutoff support)
+ */
 (function($) {
   $.timeago = function(timestamp) {
     if (timestamp instanceof Date) {
