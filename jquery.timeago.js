@@ -17,6 +17,8 @@
  * Fork: jpmoodlerooms/jquery-timeago
  *  - from rmm5t/jquery-timeago
  *  - merged changes from msolli/jquery-timeago (cutoff support)
+ *  - added support for 'at <time>'
+ *  - v 0.1
  */
 (function($) {
   $.timeago = function(timestamp) {
@@ -35,6 +37,8 @@
       refreshMillis: 60000,
       allowFuture: false,
       cutoff: 0,
+      timeCutoff: 0,
+      timeFormatter: function(d) { return [d.getHours() % 12 || 12, ":", (d.getMinutes() < 10 ? "0" : "") + d.getMinutes(), " ", d.getHours() < 12 ? "AM" : "PM"].join(""); },
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
@@ -51,7 +55,8 @@
         months: "%d months",
         year: "about a year",
         years: "%d years",
-        numbers: []
+        numbers: [],
+        at: " at %d"
       }
     },
     inWords: function(distanceMillis) {
@@ -143,7 +148,21 @@
   }
 
   function inWords(date) {
-    return $t.inWords(distance(date));
+    var dist = distance(date);
+    if ($t.settings.timeCutoff) {
+      return atTime(date, dist, $t.inWords(dist));
+    } else {
+      return $t.inWords(dist);
+    }
+  }
+
+  function atTime(date, distance, words) {
+    var timeCutoff = $t.settings.timeCutoff;
+    var cutoff = $t.settings.cutoff;
+    if (timeCutoff && distance >= timeCutoff && (!cutoff || distance < cutoff)) {
+      words += $t.settings.strings.at.replace(/%d/i, $t.settings.timeFormatter(date));
+    }
+    return words;
   }
 
   function distance(date) {
