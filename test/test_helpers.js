@@ -103,6 +103,20 @@ function loadMillis() {
   };
 }
 
+function loadNoSpaces() {
+  jQuery.extend(jQuery.timeago.settings.strings, {
+    minutes: "%dminutes",
+    wordSeparator: ""
+  });
+}
+
+function loadNullSpaces() {
+  jQuery.extend(jQuery.timeago.settings.strings, {
+    minutes: "%dminutes",
+    wordSeparator: null
+  });
+}
+
 function loadYoungOldYears() {
   jQuery.extend(jQuery.timeago.settings.strings, {
     years: function(value) { return (value < 21) ? "%d young years" : "%d old years"; }
